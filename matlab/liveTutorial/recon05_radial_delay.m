@@ -3,20 +3,15 @@
 % needs mapVBVD in the path
 
 %% Load the latest file from a dir
-path='../IceNIH_RawSend/'; % directory to be scanned for data files
-pattern='*.dat';
+path='./test_data/'; % directory to be scanned for data files
+pattern='*.mat';
 
 D=dir([path pattern]);
 [~,I]=sort([D(:).datenum]);
-data_file_path=[path D(I(end-0)).name]; % use end-1 to reconstruct the second-last data set, etc.
-%%
-twix_obj = mapVBVD(data_file_path);
+data_file_path=[path D(I(end-1)).name]; % use end-1 to reconstruct the second-last data set, etc.
 
-if iscell(twix_obj)
-    data_unsorted = double(twix_obj{end}.image.unsorted());
-else
-    data_unsorted = double(twix_obj.image.unsorted());
-end
+%% Load data
+load(data_file_path)
 
 %% Load sequence from file 
 

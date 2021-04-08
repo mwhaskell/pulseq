@@ -3,20 +3,14 @@
 % needs mapVBVD in the path
 
 %% Load the latest file from a dir
-path='../IceNIH_RawSend/'; % directory to be scanned for data files
-pattern='*.dat';
+path='./test_data/'; % directory to be scanned for data files
+pattern='*.mat';
 D=dir([path pattern]);
 [~,I]=sort([D(:).datenum]);
 data_file_path=[path D(I(end-0)).name]; % use end-1 to reconstruct the second-last data set, etc.
 
-twix_obj = mapVBVD(data_file_path);
-
 %% raw data preparation
-if iscell(twix_obj)
-    data_unsorted = double(twix_obj{end}.image.unsorted());
-else
-    data_unsorted = double(twix_obj.image.unsorted());
-end
+load(data_file_path)
 
 channels=size(data_unsorted,2);
 adc_len=size(data_unsorted,1);

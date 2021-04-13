@@ -3,14 +3,15 @@
 % needs mapVBVD in the path
 
 %% Load the latest file from a dir
-path='../IceNIH_RawSend/'; % directory to be scanned for data files
-pattern='*.dat';
+path='./test_data/'; % directory to be scanned for data files
+pattern='*.mat';
 
 D=dir([path pattern]);
 [~,I]=sort([D(:).datenum]);
-data_file_path=[path D(I(end-0)).name]; % use end-1 to reconstruct the second-last data set, etc.
-%% load raw data
-twix_obj = mapVBVD(data_file_path);
+data_file_path=[path D(I(end-1)).name]; % use end-1 to reconstruct the second-last data set, etc.
+
+%% Load data
+load(data_file_path)
 
 %% Load sequence from file 
 
@@ -44,11 +45,7 @@ os=2; % oversampling factor (we oversample both in image and k-space)
 offresonance=0; % global off-resonance in Hz
 
 %%
-if iscell(twix_obj)
-    data_unsorted = double(twix_obj{end}.image.unsorted());
-else
-    data_unsorted = double(twix_obj.image.unsorted());
-end
+
 rawdata = permute(data_unsorted, [1,3,2]);
 rawdata = reshape(rawdata, [size(rawdata,1)*size(rawdata,2),size(rawdata,3)]);
 channels=size(rawdata,2);
